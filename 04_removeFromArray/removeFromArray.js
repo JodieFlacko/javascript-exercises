@@ -9,6 +9,17 @@ PSEUDOCODE
     put them in reverse
     remove all the indexed values with looping trough the args array
 */
+
+function removeNonPresentValues(array, ...args){
+    for (let i = 0; i < args.length; i++){
+        if (args[i] >= array.length || isNaN(+args[i])) {
+            args.splice(i, 1);
+            i--;
+        }
+    }
+}
+
+removeNonPresentValues(array, args);
 if(args.length === 1)    array.splice(args[0] - 1, 1);
 else{
     args.sort().reverse();
