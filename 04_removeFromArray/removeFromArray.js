@@ -1,10 +1,16 @@
-const removeFromArray = function(array, index) {
+const removeFromArray = function(array, ...args) {
 /* 
 PSEUDOCODE
-1. Use splice method to remove and indexed element
+1. Check if there are multiple arguments
+2. If it only is one argument, remove the indexed item
+3. If there are multiple arguments, remove all the indexed values
 */
-array.splice(index - 1, 1);
-
+if(args.length === 1)    array.splice(args[0] - 1, 1);
+else{
+    for (const arg of args){
+        array.splice(arg - 1, 1);
+    }
+}
 return array;
 };
 
