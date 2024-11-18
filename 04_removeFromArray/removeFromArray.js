@@ -14,7 +14,7 @@ PSEUDOCODE
 
 function removeNonPresentValues(){
     for (let i = 0; i < args.length; i++){
-        if (args[i] >= array.length || isNaN(+args[i])) {
+        if (args[i] > array.length || isNaN(+args[i])) {
             args.splice(i, 1);
             i--;
         }
