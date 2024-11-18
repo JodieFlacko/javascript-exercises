@@ -14,9 +14,19 @@ PSEUDOCODE
 
 function removeNonPresentValues(){
     for (let i = 0; i < args.length; i++){
-        if (args[i] > array.length || isNaN(+args[i])) {
-            args.splice(i, 1);
-            i--;
+        if(isNaN(args[i])){
+            if(array.includes(args[i])) continue;
+            else {
+                args.splice(i, 1);
+                i--;
+            }
+        }
+        
+        else{
+            if (args[i] > array.length) {
+                args.splice(i, 1);
+                i--;
+            }
         }
     }
 }
@@ -41,34 +51,60 @@ function getMultipleValuesIndexes(){
     }
     return indexes;
 }
-// Use array and args which are global variables
-removeNonPresentValues();
 
-if(args.length === 1){
-    if(checkMultipleOfTheSameValues()){
-        let indexes = getMultipleValuesIndexes().sort().reverse();
-        for (let index of indexes){
-            array.splice(index, 1);
+function convertStringsToIndexes(){
+    for(let i = 0; i < args.length; i++){
+        if(typeof args[i] === "string"){
+            args[i] = i + 1;
         }
     }
-    else{
-        array.splice(args[0] - 1, 1); 
+    return;
+}
+
+function keepDifferentTypeValues(){
+    for(let i = 0; i < args.length; i++){
+            if(!isNaN(+args[i])){
+            if(typeof args[i] != typeof array[+args[i] - 1]) {
+                args.splice(i, 1);
+                i--;
+            }
+        }
     }
-}    
-else{
+    return;
+}
+
+function removeIndexedItems(arr){
+    for (let index of arr){
+        array.splice(index, 1);
+    }
+}
+
+function getIndexesWithMultipleArguments(){
     let indexes = [];
     for(let arg of args){
         if(checkMultipleOfTheSameValues()){
-            indexes = indexes.concat(getMultipleValuesIndexes());
+            indexes.concat(getMultipleValuesIndexes());
         }
-        else{
-            indexes.push(arg - 1);
-        }
+        else    indexes.push(arg - 1);
     }
-    indexes = indexes.sort().reverse();
-    for(let index of indexes){
-        array.splice(index, 1);
+    return indexes;
+}
+
+// Use array and args which are global variables
+removeNonPresentValues();
+keepDifferentTypeValues();
+convertStringsToIndexes();
+if(args.length === 1){
+    if(checkMultipleOfTheSameValues()){
+        // Revert indexes order to allow splice looping
+        let indexes = getMultipleValuesIndexes().sort().reverse();
+        removeIndexedItems(indexes);
     }
+    else    array.splice(args[0] - 1, 1); 
+}    
+else{
+    indexes = getIndexesWithMultipleArguments().sort().reverse();
+    removeIndexedItems(indexes);
 }
 return array;
 };
