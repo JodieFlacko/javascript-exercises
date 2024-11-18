@@ -10,7 +10,9 @@ PSEUDOCODE
     remove all the indexed values with looping trough the args array
 */
 
-function removeNonPresentValues(array, ...args){
+
+
+function removeNonPresentValues(){
     for (let i = 0; i < args.length; i++){
         if (args[i] >= array.length || isNaN(+args[i])) {
             args.splice(i, 1);
@@ -19,12 +21,53 @@ function removeNonPresentValues(array, ...args){
     }
 }
 
-removeNonPresentValues(array, args);
-if(args.length === 1)    array.splice(args[0] - 1, 1);
+// Check for multiple of the same values
+function checkMultipleOfTheSameValues(){
+    const arr = new Set(array)
+    // Set constructor does not include multiple of the same values
+    if(arr.size === array.length) return false;
+    return true;
+}
+
+function getMultipleValuesIndexes(){
+    let indexes = [];
+    for(let i = 0; i < args.length; i++){
+        let index = args[i] - 1;
+        for(let j = 0; j < array.length; j++){
+            if(array[index] === array[j]){
+                indexes.push(index);
+            }
+        }
+    }
+    return indexes;
+}
+// Use array and args which are global variables
+removeNonPresentValues();
+
+if(args.length === 1){
+    if(checkMultipleOfTheSameValues()){
+        let indexes = getMultipleValuesIndexes().sort().reverse();
+        for (let index of indexes){
+            array.splice(index, 1);
+        }
+    }
+    else{
+        array.splice(args[0] - 1, 1); 
+    }
+}    
 else{
-    args.sort().reverse();
-    for (const arg of args){
-        array.splice(arg - 1, 1);
+    let indexes = [];
+    for(let arg of args){
+        if(checkMultipleOfTheSameValues()){
+            indexes = indexes.concat(getMultipleValuesIndexes());
+        }
+        else{
+            indexes.push(arg - 1);
+        }
+    }
+    indexes = indexes.sort().reverse();
+    for(let index of indexes){
+        array.splice(index, 1);
     }
 }
 return array;
