@@ -1,18 +1,14 @@
-const sumAll = function(rangeValue1, rangeValue2) {
-    if(!(Number.isInteger(rangeValue1) && Number.isInteger(rangeValue2) &&
-        rangeValue1 > 0 && rangeValue2 > 0)) return 'ERROR';
-    
-    let rangeStart, rangeEnd;
-    if(rangeValue1 < rangeValue2)   {
-        rangeStart = rangeValue1, rangeEnd = rangeValue2;
+const sumAll = function(min, max) {
+    if(!(Number.isInteger(min) && Number.isInteger(max) &&
+        min > 0 && max > 0)) return 'ERROR';
+    if(max < min){
+        let temp = min;
+        min = max;
+        max = temp;
     }
-    else{
-        rangeStart = rangeValue2, rangeEnd = rangeValue1;
-    }
-    let sum = rangeStart, counter = rangeStart;
-    while (counter < rangeEnd){
-        sum += counter + 1;
-        counter++;
+    let sum = 0;
+    for(let i = min; i <= max; i++){
+        sum += i;
     }
     return sum;
 };
