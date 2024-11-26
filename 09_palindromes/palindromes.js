@@ -1,15 +1,19 @@
-function removePunctuation(string){
-    const array = string.split('');
-    return array.filter(char => {
-        return /^[A-Za-z0-9]+$/.test(char)});
+function removePunctuation(array){
+    const alphadigits = "abcdefghijklmnopqwyrstz0123456789";
+    return array.filter(char => alphadigits.includes(char));
 }
 
 const palindromes = function (str) {
-    string_1 = removePunctuation(str).reverse().join('').toLowerCase();
-    string_2 = removePunctuation(str).join('').toLowerCase();
-
-    // /^[A-Za-z0-9]+$/.test(s) return true if s contains only the specified characters
-    return string_1 === string_2;
+    let checkString = removePunctuation(str
+                                        .toLowerCase()
+                                        .split(''))
+                                        .join('');
+    let checkString2 = removePunctuation(str
+                                        .toLowerCase()
+                                        .split(''))
+                                        .reverse()
+                                        .join('');
+    return checkString === checkString2;
 };
 
 // Do not edit below this line
