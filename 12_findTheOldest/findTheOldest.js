@@ -3,13 +3,10 @@ function getAge(person){
     return person.yearOfDeath - person.yearOfBirth;
 }
 
-const findTheOldest = function(array) {
-    const oldest = array.reduce((old, person) => {
-        if (getAge(person) > getAge(old)) old = person;
-        return old;
+const findTheOldest = function(people) {
+    return people.reduce((oldest, person) => {
+        return (getAge(person) > getAge(oldest)) ? person : oldest;
     });
-
-    return oldest;
 };
 
 // Do not edit below this line
