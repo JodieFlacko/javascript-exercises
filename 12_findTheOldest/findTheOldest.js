@@ -1,11 +1,15 @@
+function getAge(person){
+    if(person.yearOfDeath === undefined) person.yearOfDeath = new Date().getFullYear();
+    return person.yearOfDeath - person.yearOfBirth;
+}
+
 const findTheOldest = function(array) {
-    array.sort((a,b) => {
-        if(a.yearOfDeath === undefined) a.yearOfDeath = new Date().getFullYear();
-        if(b.yearOfDeath === undefined) b.yearOfDeath = new Date().getFullYear();
-        return ((b.yearOfDeath - b.yearOfBirth) - (a.yearOfDeath - a.yearOfBirth));
-    })
-    
-    return array[0];
+    const oldest = array.reduce((old, person) => {
+        if (getAge(person) > getAge(old)) old = person;
+        return old;
+    });
+
+    return oldest;
 };
 
 // Do not edit below this line
